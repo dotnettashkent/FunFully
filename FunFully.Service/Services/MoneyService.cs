@@ -3,11 +3,6 @@ using FunFully.Data.IRepositories;
 using FunFully.Domain.Entities.Moneys;
 using FunFully.Service.DTOs.Moneys;
 using FunFully.Service.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FunFully.Service.Services
 {
@@ -29,19 +24,14 @@ namespace FunFully.Service.Services
             return mapper.Map<AddMoneyResultDto>(result);
         }
 
-        public async ValueTask<GetMoneyResultDto> GetMoneyAsync(GetMoneyCreationDto dto)
-        {
-            return null;
-        }
-
         public async ValueTask<bool> DeleteAddMoneyAsync(long id)
         {
             var money = await moneyRepository.GetAsync(id);
             if (money == null)
             {
+                return false;
             }
-
-
+            await moneyRepository.DeleteAsync(money);
             return true;
         }
 
@@ -50,10 +40,21 @@ namespace FunFully.Service.Services
             var money = await moneyRepository.GetAsync(id);
             if (money == null)
             {
-
+                return false;
             }
-
+            await moneyRepository.DeleteAsync(money);
             return true;
+        }
+
+        public async ValueTask<GetMoneyResultDto> GetMoneyAsync(GetMoneyCreationDto dto, long id)
+        {
+            var money = await moneyRepository.GetAsync(id);
+            if (money == null)
+            {
+                return null;
+            }
+            var result = mapper.Map<GetMoneyResultDto>(money);
+            return result;
         }
     }
 }

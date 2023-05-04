@@ -10,5 +10,13 @@ namespace FunFully.Data.Contexts
 
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Money> Moneys { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("DefaultConnection", b => b.MigrationsAssembly("FunFully.Api"));
+            }
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FunFully.Service.Exceptions;
+using MailKit.Security;
+using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Text;
 using StackExchange.Redis;
@@ -41,7 +43,7 @@ namespace FunFully.Service.Helpers
             }
             catch (Exception ex)
             {
-                throw new CustomException(400, ex.Message);
+                throw new FunFullyException(400, ex.Message);
             }
         }
     }
